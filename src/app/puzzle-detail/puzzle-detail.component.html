@@ -1,0 +1,9 @@
+<div *ngFor="let row of buttons">
+    <b *ngFor="let button of row" >
+        <button [ngClass]=button.class>
+            {{button.text}}
+        </button>
+    </b>
+</div>
+<hr>
+<input type="text"  class=puzzleentry [(ngModel)]="entry" (keyup.enter)="sendWord()" (keyup)="checkEntry">
