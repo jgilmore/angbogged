@@ -1,0 +1,9 @@
+<p></p>
+<span class=wordlist>
+    <ng-container *ngFor='let word of words' >
+        <p [class]='word.players.length>0?"failed":"notfailed"' [title]='word.playerlist'>
+        {{ word.word }}{{ word.foundtime }}
+        </p>
+    </ng-container>
+</span>
+<p></p>
