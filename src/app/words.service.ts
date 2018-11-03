@@ -3,6 +3,7 @@ import { MessageService } from './message.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of }  from 'rxjs';
 import { catchError, map, tap, pluck } from 'rxjs/operators';
+import * as moment from 'moment';
 
 
 export class Players{
@@ -34,18 +35,19 @@ export class WordsService {
   private getWordsURL = 'http://127.0.0.1:8000/wordlist/';
   private addWordURL = 'http://127.0.0.1:8000/word/';
 
-  public addWord(word: string, interval: number, play: number){
+  public addWord(word: string, interval: moment.Duration, play: number){
     /*
-    return this.http.post<Word[]>(this.wordsURL+play+'/?format=json')
+    return this.http.post<Word[]>(this.addwordURL+play+'/?format=json')
       .pipe(
         catchError(this.handleError('getWords',[]),
         map(this.successMessage('addWord'))
       );
     */
+    this.doMessage(`Added: ${word} with interval:${interval.asSeconds()} and play: ${play}`)
     return of([]);
   }
 
-  /* TODO: Make this actuall poll instead of just doing one "get" and stopping */
+  /* TODO: Make this actually poll instead of just doing one "get" and stopping */
   public pollWords(play: number): Observable<WordsListSet[]> {
     return this.http.get<WordsListSet[]>(this.getWordsURL+play+'/?format=json')
       .pipe(

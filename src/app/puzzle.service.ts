@@ -14,14 +14,23 @@ import * as moment from 'moment';
 export class PuzzleService {
 
   public getPuzzles(): Observable<Puzzle[]> {
-    return this.http.get<Puzzle[]>(this.puzzleURL)
+    return this.http.get<Puzzle[]>(this.puzzleURL + this.formatURL)
       .pipe(
-        catchError(this.handleError('getPuzzles',[])),
+        catchError(this.handleError('getPuzzles', [])),
         map(this.parsedates),
         tap(this.successMessage())
       );
   }
-  private puzzleURL = "http://127.0.0.1:8000/puzzle/?format=json";
+  public getPuzzle(puzzleID: number): Observable<Puzzle> {
+    return this.http.get<Puzzle>(this.puzzleURL + puzzleID + this.formatURL)
+      .pipe(
+        catchError(this.handleError('getPuzzles', [])),
+        map(this.parsedates),
+        tap(this.successMessage())
+      );
+  }
+  private puzzleURL = "http://127.0.0.1:8000/puzzle/";
+  private formatURL = "?format=json";
 
   private parsedates(puzzles: Puzzle[], index:number ){
     for( var i=0, puzzle; puzzle = puzzles[i] ; i++){

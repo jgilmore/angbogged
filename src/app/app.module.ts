@@ -9,6 +9,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { PuzzleDetailComponent } from './puzzle-detail/puzzle-detail.component';
 import { WordsComponent } from './words/words.component';
 import { TimerComponent } from './timer/timer.component';
+import { WordEntryComponent } from './word-entry/word-entry.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TimerComponent } from './timer/timer.component';
     MessagesComponent,
     PuzzleDetailComponent,
     WordsComponent,
-    TimerComponent
+    TimerComponent,
+    WordEntryComponent
   ],
   imports: [
     BrowserModule,

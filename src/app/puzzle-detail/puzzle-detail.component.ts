@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Puzzle, PuzzleOptions } from '../puzzle';
 import { MessageService } from '../message.service';
+import { PuzzleService } from '../puzzle.service';
+import * as moment from 'moment';
 
 class pbutton {
   text: string;
@@ -13,7 +15,7 @@ class pbutton {
   styleUrls: ['./puzzle-detail.component.css']
 })
 export class PuzzleDetailComponent implements OnInit {
-  entry: string;
+  counter: moment.Duration;
   buttons: pbutton[][];
   cssclasses=[
     'puzzlebutton1',
@@ -29,7 +31,7 @@ export class PuzzleDetailComponent implements OnInit {
         "date": new Date("2018-10-18T22:13:48.603248Z"),
         "complete": false,
         "score": 0,
-        "time": "00:05:00",
+        "time": moment.duration("00:06:00"),
         "missed": false,
         "repeats": false,
         "showmaximum": false,
@@ -42,30 +44,9 @@ export class PuzzleDetailComponent implements OnInit {
     "diceset": "1"
   }
 
-  public sendWord() {
-    /* Called when enter is pressed on the input form. Sends the word off 
-     * to the backed for validation.
-     */
-    this.messageService.add(`puzzle-detail: submitted word ${this.entry}`)
-    console.log("blah!")
-    this.entry=""
-  }
-
-  public checkEntry(){
-    /* disallow non-alphabetical entries, and force uppercase
-    */
-    var entry = ""
-    for( var i = 0; i < this.entry.length; i++){
-      var c = this.entry.slice(i,i+1).toLowerCase();
-      if( "abcdefghijklmnopqrstuvwxyz".indexOf(c) !== -1){
-        entry += c;
-      }
-    }
-    this.entry=entry;
-  }
-
   constructor(
     private messageService: MessageService,
+    private puzzleService: PuzzleService,
   ){
   }
 
@@ -80,10 +61,18 @@ export class PuzzleDetailComponent implements OnInit {
     return hash;
   };
 
-
-  ngOnInit() {
-
-    var size = Math.sqrt(this.puzzle.layout.length)
+  private updateButtons(){
+    /* This updates button array with the values from the layout string.
+     * Also updates the button array with the correct CSS class information,
+     * assuring that the text sizes are right for 'Qu' and the background
+     * images change between puzzles while remaining consisten for any given
+     * puzzle.
+     */
+    var size = Math.sqrt(this.puzzle.layout.length);
+    this.messageService.add("updating buttons to layout:" 
+      + this.puzzle.layout 
+      + " of length " 
+      + this.puzzle.layout.length);
 
     this.buttons=[]
     for( var i=0; i<size; i++){
@@ -106,6 +95,23 @@ export class PuzzleDetailComponent implements OnInit {
         this.buttons[i].push(button);
       }
     }
+  }
+
+  counterTick(counter: moment.Duration){
+    this.counter = counter;
+  }
+
+
+  ngOnInit() {
+    // This is going to operate from the "blank" data on the initialization.
+    // We'll call this again once we get a copy of the actual layout.
+    this.updateButtons();
+    this.puzzleService.getPuzzle(9).subscribe(
+      puzzle => {
+        this.puzzle = puzzle;
+        this.updateButtons();
+      });
+
   }
 
 }

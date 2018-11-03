@@ -1,26 +1,36 @@
+.grid{
+    width: 100vw;
+}
+.gridrow{
+    width: 100vw;
+}
 .puzzlebutton{
     display: inline-block;
-    width: 80px;
-    height: 80px;
-    font-size: 50px;
+    width: 19vw;
+    height: 19vw;
+    font-size: 10vw;
     font-weight: bold;
 }
 .qubutton {
     display: inline-block;
-    width: 80px;
-    height: 80px;
-    font-size: 40px;
+    width: 19vw;
+    height: 19vw;
+    font-size: 8vw;
     font-weight: bold;
 }
 .puzzlebutton1 {
     background: url("../../assets/images/WoodenDice1.png") no-repeat 0 0 transparent;
+    background-size: contain;
 }
 .puzzlebutton2 {
     background: url("../../assets/images/WoodenDice2.png") no-repeat 0 0 transparent;
+    background-size: contain;
 }
 .puzzlebutton3 {
     background: url("../../assets/images/WoodenDice3.png") no-repeat 0 0 transparent;
+    background-size: contain;
 }
 .puzzlebutton4 {
     background: url("../../assets/images/WoodenDice4.png") no-repeat 0 0 transparent;
+    background-size: contain;
 }

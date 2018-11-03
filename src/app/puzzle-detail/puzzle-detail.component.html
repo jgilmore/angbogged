@@ -1,10 +1,14 @@
-<app-timer></app-timer>
-<div *ngFor="let row of buttons">
-    <b *ngFor="let button of row" >
-        <button [ngClass]=button.class>
-            {{button.text}}
-        </button>
-    </b>
-</div>
+<app-timer [initialTime]="puzzle.options[0].time" (updateCounter)="counterTick($event)"></app-timer>
+<p class="grid">
+    <div *ngFor="let row of buttons" class="gridrow">
+        <b *ngFor="let button of row" class="gridbutton">
+            <button [ngClass]=button.class>
+                {{button.text}}
+            </button>
+        </b>
+    </div>
 <hr>
-<input type="text"  class=puzzleentry [(ngModel)]="entry" (keyup.enter)="sendWord()" (keyup)="checkEntry">
+{{counter.asSeconds()}}
+<hr>
+<app-word-entry [play]="puzzle.id" [duration]="counter"></app-word-entry>
+<app-words></app-words>
