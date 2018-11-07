@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WordsListSet, Players, WordsService } from '../words.service';
+import { WordsListSet, Players, PuzzleService } from '../puzzle.service';
 import { PuzzleOptions } from '../puzzle';
 
 
@@ -13,12 +13,12 @@ export class WordsComponent implements OnInit {
   words: WordsListSet[];
 
   private getWords(){
-    this.wordsService.pollWords(1).subscribe( words => this.words = words);
+    this.puzzleService.pollWords(1).subscribe( words => this.words = words);
   }
 
 
   constructor(
-    private wordsService: WordsService,
+    private puzzleService: PuzzleService,
   ) { }
 
 

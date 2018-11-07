@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WordsService } from '../words.service';
+import { PuzzleService } from '../puzzle.service';
 import { MessageService } from '../message.service';
 import * as moment from 'moment';
 
@@ -20,7 +20,7 @@ export class WordEntryComponent implements OnInit {
      * to the backed for validation.
      */
     if(this.entry.length > 2){
-      this.wordsService.addWord(this.entry, this.duration, this.puzzle)
+      this.puzzleService.addWord(this.entry, this.duration, this.puzzle)
         .subscribe( result => this.messageService.add("Post result returned:"+result));
     }
     this.entry=""
@@ -42,7 +42,7 @@ export class WordEntryComponent implements OnInit {
 
 
   constructor(
-    private wordsService: WordsService,
+    private puzzleService: PuzzleService,
     private messageService: MessageService,
   ) { }
 
