@@ -10,5 +10,5 @@
 <hr>
 {{counter.asSeconds()}}
 <hr>
-<app-word-entry [play]="puzzle.id" [duration]="counter"></app-word-entry>
-<app-words></app-words>
+<app-word-entry [puzzle]="puzzle.id" [duration]="counter"></app-word-entry>
+<app-words [options]="puzzle.options[0]"></app-words>

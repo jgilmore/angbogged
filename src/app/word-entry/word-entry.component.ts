@@ -9,7 +9,7 @@ import * as moment from 'moment';
   styleUrls: ['./word-entry.component.css']
 })
 export class WordEntryComponent implements OnInit {
-  @Input() play: number;
+  @Input() puzzle: number;
   @Input() duration: moment.Duration;
   entry: string;
   disabled;
@@ -19,7 +19,10 @@ export class WordEntryComponent implements OnInit {
     /* Called when enter is pressed on the input form. Sends the word off 
      * to the backed for validation.
      */
-    this.wordsService.addWord(this.entry, this.duration, this.play);
+    if(this.entry.length > 2){
+      this.wordsService.addWord(this.entry, this.duration, this.puzzle)
+        .subscribe( result => this.messageService.add("Post result returned:"+result));
+    }
     this.entry=""
   }
 

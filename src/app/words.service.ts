@@ -26,7 +26,11 @@ class WordsResponse {
   wordlist_set: WordsListSet[];
   //pk: number;
 }
-
+class WordsPostFormat {
+  puzzle: number;
+  word: string;
+  foundtime: moment.Duration;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -35,16 +39,20 @@ export class WordsService {
   private getWordsURL = 'http://127.0.0.1:8000/wordlist/';
   private addWordURL = 'http://127.0.0.1:8000/word/';
 
-  public addWord(word: string, interval: moment.Duration, play: number){
-    /*
-    return this.http.post<Word[]>(this.addwordURL+play+'/?format=json')
+  public addWord(word: string, interval: moment.Duration, puzzle: number){
+
+    var sendMe = new WordsPostFormat();
+
+    sendMe.puzzle = puzzle;
+    sendMe.word = word;
+    sendMe.foundtime = interval;
+
+    this.doMessage(`Adding: ${word} with interval:${interval.asSeconds()} and puzzle: ${puzzle}`)
+    return this.http.post<WordsResponse[]>(this.addWordURL,  sendMe)
       .pipe(
-        catchError(this.handleError('getWords',[]),
-        map(this.successMessage('addWord'))
+        catchError(this.handleError('getWords', [])),
+        tap(this.successMessage('addWord')),
       );
-    */
-    this.doMessage(`Added: ${word} with interval:${interval.asSeconds()} and play: ${play}`)
-    return of([]);
   }
 
   /* TODO: Make this actually poll instead of just doing one "get" and stopping */

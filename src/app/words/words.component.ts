@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WordsListSet, Players, WordsService } from '../words.service';
+import { PuzzleOptions } from '../puzzle';
 
 
 @Component({
@@ -8,6 +9,7 @@ import { WordsListSet, Players, WordsService } from '../words.service';
   styleUrls: ['./words.component.css']
 })
 export class WordsComponent implements OnInit {
+  @Input() options: PuzzleOptions;
   words: WordsListSet[];
 
   private getWords(){
