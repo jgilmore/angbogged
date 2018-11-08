@@ -44,12 +44,43 @@ export class PuzzleService {
   private getWordsURL = this.server + '/wordlist/'; 
   private addWordURL = this.server + '/word/'; 
   private puzzleURL = this.server + '/puzzle/';
-  private loginURL = this.server + '/login/';
+  private authURL = this.server + '/auth/';
   private formatURL = '?format=json';
   private token: string;
 
-  // Login function
-  private LoginIfNeeded(){
+  // Login functions
+  // auth API access points:
+  //   login, logout, 
+  //   "password/reset", "password/reset/confirm", "password/change", 
+  //   verify-email, account-confirm-email, 
+  //   /,  (registration)
+  //   user (for updating user details)
+  public isAuthenticated(){
+    // if token is "truthy" assume we're authenticated.
+    return !!this.token;
+  }
+
+  public login(emailorname: string, password:string){
+    var name, email;
+    if( emailorname.includes('@') ){
+      email = emailorname;
+    }
+    else{
+      name = emailorname;
+    }
+    this.http.post<{"key":string}>(this.authURL + 'login', {
+      "username": name,
+      "email": email,
+      "password": password,
+    }).subscribe( token => this.token = token.key );
+  }
+  
+  public logout(){
+    this.http.post(this.authURL + 'logout').subscribe( anything => this.token = undefined )
+  }
+
+  public register(username: string, email:string, pword1: string, pword2: string ){
+    this.doMessage("register function is unimplemented in puzzleservice");
   }
 
   // Word fetching functions 
