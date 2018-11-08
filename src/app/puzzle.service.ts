@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { Observable, of, interval }  from 'rxjs';
-import { catchError, map, tap, pluck } from 'rxjs/operators';
+import { catchError, map, tap, pluck, switchMap } from 'rxjs/operators';
 import { Puzzle, PuzzleOptions } from './puzzle';
 import * as moment from 'moment';
 
@@ -57,6 +57,8 @@ export class PuzzleService {
   //   user (for updating user details)
   public isAuthenticated(){
     // if token is "truthy" assume we're authenticated.
+    if( !this.token ){
+    }
     return !!this.token;
   }
 
@@ -76,7 +78,7 @@ export class PuzzleService {
   }
   
   public logout(){
-    this.http.post(this.authURL + 'logout').subscribe( anything => this.token = undefined )
+    this.http.post(this.authURL + 'logout',{}).subscribe( anything => this.token = undefined )
   }
 
   public register(username: string, email:string, pword1: string, pword2: string ){
@@ -86,14 +88,14 @@ export class PuzzleService {
   // Word fetching functions 
   public addWord(word: string, interval: moment.Duration, puzzle: number){ 
  
-    var sendMe = new WordsPostFormat(); 
- 
-    sendMe.puzzle = puzzle; 
-    sendMe.word = word; 
-    sendMe.foundtime = interval; 
  
     this.doMessage(`Adding: ${ word } with interval:${ interval.asSeconds() } and puzzle: ${ puzzle }`) 
-    return this.http.post<WordsResponse[]>(this.addWordURL,  sendMe) 
+    return this.http.post<WordsResponse[]>(this.addWordURL,
+      {
+        "puzzle":puzzle,
+        "word":word,
+        "foundtime":`00:00:${interval.asSeconds()}`,
+      }) 
       .pipe( 
         catchError(this.handleError('getWords', [])), 
         tap(this.successMessage('addWord')), 
@@ -101,13 +103,17 @@ export class PuzzleService {
   } 
  
   public pollWords(puzzle: number): Observable<WordsListSet[]> { 
-    var observable = this.http.get<WordsListSet[]>(this.getWordsURL + puzzle + this.formatURL) 
-      .pipe( 
-        catchError(this.handleError('getWords',[])), 
-        pluck('wordlist_set'), 
-        map(this.changetoplayerstring), 
-        tap(this.successMessage('getWords')), 
-      );
+    var observable = interval<WordsListSet[]>(10000).pipe(
+      switchMap( dumpme => {
+        return this.http.get<WordsListSet[]>(this.getWordsURL + puzzle + this.formatURL) 
+          .pipe( 
+            catchError(this.handleError('getWords',[])), 
+            pluck('wordlist_set'), 
+            map(this.changetoplayerstring), 
+            tap(this.successMessage('getWords')), 
+          );
+      })
+    );
     return observable;
   } 
 
