@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Puzzle, PuzzleOptions } from '../puzzle';
 import { MessageService } from '../message.service';
 import { PuzzleService } from '../puzzle.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 
 class pbutton {
@@ -47,6 +49,8 @@ export class PuzzleDetailComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private puzzleService: PuzzleService,
+    private router: Router,
+    private route: ActivatedRoute,
   ){
   }
 
@@ -105,12 +109,19 @@ export class PuzzleDetailComponent implements OnInit {
   ngOnInit() {
     // This is going to operate from the "blank" data on the initialization.
     // We'll call this again once we get a copy of the actual layout.
-    this.updateButtons();
-    this.puzzleService.getPuzzle(9).subscribe(
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>{
+        this.messageService.add("decoded URL!");
+        return this.puzzleService.getPuzzle(parseInt(params.get('id')))
+      })
+    ).subscribe(
       puzzle => {
+        this.messageService.add("Got puzzle response!");
         this.puzzle = puzzle;
         this.updateButtons();
-      });
+      }
+    );
+    this.updateButtons();
 
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { Observable, of, interval }  from 'rxjs';
 import { catchError, map, tap, pluck, switchMap } from 'rxjs/operators';
@@ -23,19 +23,6 @@ export class WordsListSet {
 }
 
 
-class WordsResponse {
-  wordlist_set: WordsListSet[];
-  //pk: number;
-}
-
-
-class WordsPostFormat {
-  puzzle: number;
-  word: string;
-  foundtime: moment.Duration;
-}
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -43,10 +30,10 @@ export class PuzzleService {
   private server = "http://127.0.0.1:8000";
   private getWordsURL = this.server + '/wordlist/'; 
   private addWordURL = this.server + '/word/'; 
-  private puzzleURL = this.server + '/puzzle/';
+  private puzzleURL = this.server + '/puzzle';
   private authURL = this.server + '/auth/';
-  private formatURL = '?format=json';
-  private token: string;
+  private formatURL = '/?format=json';
+  public token: string;
 
   // Login functions
   // auth API access points:
@@ -57,12 +44,10 @@ export class PuzzleService {
   //   user (for updating user details)
   public isAuthenticated(){
     // if token is "truthy" assume we're authenticated.
-    if( !this.token ){
-    }
     return !!this.token;
   }
 
-  public login(emailorname: string, password:string){
+  public login(emailorname: string, password:string): Observable<boolean>{
     var name, email;
     if( emailorname.includes('@') ){
       email = emailorname;
@@ -70,11 +55,19 @@ export class PuzzleService {
     else{
       name = emailorname;
     }
-    this.http.post<{"key":string}>(this.authURL + 'login', {
+    return this.http.post(this.authURL + 'login/', {
       "username": name,
       "email": email,
       "password": password,
-    }).subscribe( token => this.token = token.key );
+    }).pipe(
+      catchError(this.handleError('login',{"key":false})),
+      map( (response:{"key":string}) =>{ 
+        this.token = response.key;
+        localStorage.setItem("token",this.token);
+        this.doMessage("Login finished, got key " + this.token);
+        return !!this.token;
+      } )
+    )
   }
   
   public logout(){
@@ -87,10 +80,8 @@ export class PuzzleService {
 
   // Word fetching functions 
   public addWord(word: string, interval: moment.Duration, puzzle: number){ 
- 
- 
     this.doMessage(`Adding: ${ word } with interval:${ interval.asSeconds() } and puzzle: ${ puzzle }`) 
-    return this.http.post<WordsResponse[]>(this.addWordURL,
+    return this.http.post(this.addWordURL,
       {
         "puzzle":puzzle,
         "word":word,
@@ -103,9 +94,9 @@ export class PuzzleService {
   } 
  
   public pollWords(puzzle: number): Observable<WordsListSet[]> { 
-    var observable = interval<WordsListSet[]>(10000).pipe(
+    var observable = interval(5000).pipe(
       switchMap( dumpme => {
-        return this.http.get<WordsListSet[]>(this.getWordsURL + puzzle + this.formatURL) 
+        return this.http.get(this.getWordsURL + puzzle + this.formatURL) 
           .pipe( 
             catchError(this.handleError('getWords',[])), 
             pluck('wordlist_set'), 
@@ -138,7 +129,7 @@ export class PuzzleService {
   }
 
   public getPuzzle(puzzleID: number): Observable<Puzzle> {
-    return this.http.get<Puzzle>(this.puzzleURL + puzzleID + this.formatURL)
+    return this.http.get<Puzzle>(this.puzzleURL + '/' + puzzleID + this.formatURL)
       .pipe(
         catchError(this.handleError('getPuzzle', [])),
         map(this.parsedates),
