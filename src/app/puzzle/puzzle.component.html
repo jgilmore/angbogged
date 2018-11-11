@@ -1,7 +1,37 @@
-<div *ngFor="let puzzle of puzzles" >
-    <h4>{{puzzle.id}}
+<table class="table">
+    <tr>
+        <th>
+            link
+        </th>
+        <th>
+            Created
+        </th>
+        <th>
+            Length and options
+        </th>
+        <th>
+            Diceset
+        </th>
+    </tr>
+<tr *ngFor="let puzzle of puzzles" >
+    <td>
+        <a routerLink="/play/{{puzzle.id}}" routerLinkActive="active">{{puzzle.id}}</a>
+        {{puzzle.id}}
+    </td>
+    <td>
         {{puzzle.options[0].date}}
+    </td>
+    <td>
         {{puzzle.options[0].time}}
-    {{puzzle.diceset}}</h4>
-    <a routerLink="/play/{{puzzle.id}}" routerLinkActive="active">{{puzzle.id}}</a>
-</div>
+    </td>
+    <td>
+        {{puzzle.diceset}}
+    </td>
+</tr>
+</table>
+<br>
+<button [routerLink]="['/dice']" routerLinkActive="active">
+DiceSets
+</button>
+
+

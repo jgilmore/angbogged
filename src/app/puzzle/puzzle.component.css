@@ -1,0 +1,19 @@
+.table{
+    width: 100%;
+    border: 5px solid red;
+    border-collapse: collapse;
+}
+tr{
+    height: 3em;
+}
+tr:hover{
+    background-color: #808080;
+}
+tr:nth-child(4n) {
+    border-bottom: 1px dashed green;
+}
+th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-left: 2em;
+}

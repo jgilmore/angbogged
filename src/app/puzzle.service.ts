@@ -33,7 +33,6 @@ export class PuzzleService {
   private puzzleURL = this.server + '/puzzle';
   private authURL = this.server + '/auth/';
   private formatURL = '/?format=json';
-  public token: string;
 
   // Login functions
   // auth API access points:
