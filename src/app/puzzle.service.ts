@@ -44,7 +44,8 @@ export class PuzzleService {
   //   user (for updating user details)
   public isAuthenticated(){
     // if token is "truthy" assume we're authenticated.
-    return !!this.token;
+    var token =  localStorage.getItem("token");
+    return !!token;
   }
 
   public login(emailorname: string, password:string): Observable<boolean>{
@@ -62,16 +63,19 @@ export class PuzzleService {
     }).pipe(
       catchError(this.handleError('login',{"key":false})),
       map( (response:{"key":string}) =>{ 
-        this.token = response.key;
-        localStorage.setItem("token",this.token);
-        this.doMessage("Login finished, got key " + this.token);
-        return !!this.token;
+        var token = response.key;
+        localStorage.setItem("token", token);
+        this.doMessage("Login finished, got key " + token);
+        return !!token;
       } )
     )
   }
   
   public logout(){
-    this.http.post(this.authURL + 'logout',{}).subscribe( anything => this.token = undefined )
+    this.http.post(this.authURL + 'logout',{}).subscribe( anything =>
+      {
+        localStorage.setItem("token", undefined);
+      } )
   }
 
   public register(username: string, email:string, pword1: string, pword2: string ){
