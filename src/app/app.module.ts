@@ -23,7 +23,7 @@ const appRoutes: Routes =[
   { path: 'puzzles', component: PuzzleComponent },
   { path: 'play/:id', component: PuzzleDetailComponent },
   { path: 'newgame', component: NewGameComponent },
-  { path: '**', component: PuzzleComponent },
+  { path: '**', component: LoginComponent },
 ]
 
 @NgModule({
