@@ -1,21 +1,35 @@
 .grid{
-    width: 100vw;
+    width: 100%;
 }
 .gridrow{
-    width: 100vw;
+    width: 100%;
 }
-.puzzlebutton{
+.puzzlebutton5{
     display: inline-block;
     width: 19vw;
     height: 19vw;
     font-size: 10vw;
     font-weight: bold;
 }
-.qubutton {
+.qubutton5 {
     display: inline-block;
     width: 19vw;
     height: 19vw;
     font-size: 8vw;
+    font-weight: bold;
+}
+.puzzlebutton4{
+    display: inline-block;
+    width: 23vw;
+    height: 23vw;
+    font-size: 16vw;
+    font-weight: bold;
+}
+.qubutton4 {
+    display: inline-block;
+    width: 24vw;
+    height: 24vw;
+    font-size: 10vw;
     font-weight: bold;
 }
 .puzzlebutton1 {
@@ -36,18 +50,36 @@
 }
 
 @media only screen and (min-width: 768px){
-    .puzzlebutton{
+    .puzzledetail{
+        width: 500px;
+        float: left;
+    }
+    .puzzlebutton5{
         display: inline-block;
         width: 100px;
         height: 100px;
         font-size: 66px;
         font-weight: bold;
     }
-    .qubutton {
+    .qubutton5 {
         display: inline-block;
         width: 100px;
         height: 100px;
         font-size: 42px;
+        font-weight: bold;
+    }
+    .puzzlebutton4{
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        font-size: 80px;
+        font-weight: bold;
+    }
+    .qubutton4 {
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        font-size: 50px;
         font-weight: bold;
     }
 }

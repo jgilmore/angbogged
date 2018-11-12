@@ -1,0 +1,6 @@
+.titlebar{
+    display: block;
+    text-align: center;
+    font-size: 2em;
+    padding: .25em 1em;
+}

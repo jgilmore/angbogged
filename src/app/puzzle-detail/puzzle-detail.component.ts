@@ -24,7 +24,8 @@ export class PuzzleDetailComponent implements OnInit {
     'puzzlebutton2',
     'puzzlebutton3',
     'puzzlebutton4',
-  ]
+  ];
+  gridbutton = "gridbutton";
   puzzle: Puzzle ={
     "id": 10,
     "options": [
@@ -73,6 +74,8 @@ export class PuzzleDetailComponent implements OnInit {
      * puzzle.
      */
     var size = Math.sqrt(this.puzzle.layout.length);
+    var extraclas: string;
+
     this.messageService.add("updating buttons to layout:" 
       + this.puzzle.layout 
       + " of length " 
@@ -91,10 +94,20 @@ export class PuzzleDetailComponent implements OnInit {
         ]
         if( button.text === 'Q' ){
           button.text = 'Qu';
-          button.class.push('qubutton');
+          if(size === 4){
+            button.class.push('qubutton4');
+          }
+          else{
+            button.class.push('qubutton5');
+          }
         }
         else{
-          button.class.push('puzzlebutton');
+          if(size === 4){
+            button.class.push('puzzlebutton4');
+          }
+          else{
+            button.class.push('puzzlebutton5');
+          }
         }
         this.buttons[i].push(button);
       }

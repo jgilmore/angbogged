@@ -1,9 +1,7 @@
-<p></p>
-<span class=wordlist>
-    <ng-container *ngFor='let word of words' >
-        <p [class]='word.players.length>0?"failed":"notfailed"' [title]='word.playerlist'>
+<div class=wordlist>
+    <p *ngFor='let word of words' [title]='word.playerlist' class=word>
+        <span [class]='word.players.length>0?"failed":"notfailed"' >
         {{ word.word }}
-        </p>
-    </ng-container>
-</span>
-<p></p>
+        </span>
+    </p>
+</div>

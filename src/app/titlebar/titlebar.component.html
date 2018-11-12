@@ -1,4 +1,6 @@
+<div class=titlebar>
   <a *ngIf="showLogin()"
    [routerLink]="['/login']" >login</a>
   <a *ngIf="!showLogin()"
    [routerLink]="['/logout']" >logout</a>
+</div>
