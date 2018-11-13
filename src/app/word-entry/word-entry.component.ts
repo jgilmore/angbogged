@@ -34,6 +34,9 @@ export class WordEntryComponent implements OnInit {
             this.messageService.add("HTTP POST failed, status=" 
               + error.status + " result returned:"
               + error.error );
+            if( error.status = 400){
+              this.errormessage = "Too Late! Time's up!";
+            }
           } else{
             var message: string;
             message = error.error + ""; //Force to string.

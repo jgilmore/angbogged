@@ -19,6 +19,8 @@ class pbutton {
 export class PuzzleDetailComponent implements OnInit {
   counter: moment.Duration;
   buttons: pbutton[][];
+  timer='timer'; // CSS class for timer applet TODO: Adjust this based on time remaining.
+
   cssclasses=[
     'puzzlebutton1',
     'puzzlebutton2',
@@ -45,6 +47,10 @@ export class PuzzleDetailComponent implements OnInit {
     "createdby": "Juan Cortez",
     "layout": "ABCDEFGHIJKLMNOPQRSTUVWXY",
     "diceset": "1"
+  }
+
+  onScore(score: number){
+    this.puzzle.options[0].score = score;
   }
 
   constructor(

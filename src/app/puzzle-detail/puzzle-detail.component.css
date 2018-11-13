@@ -4,6 +4,16 @@
 .gridrow{
     width: 100%;
 }
+.score{
+    float: right;
+    font-size: 2em;
+    padding-right: .5em;
+}
+.timer{
+    float: left;
+    font-size: 2em;
+    padding-left: .5em;
+}
 .puzzlebutton5{
     display: inline-block;
     width: 19vw;
@@ -50,6 +60,17 @@
 }
 
 @media only screen and (min-width: 768px){
+    .puzzleheader{
+        width:500px;
+    }
+    .score{
+        float: right;
+        font-size: 2em;
+    }
+    .timer{
+        float: left;
+        font-size: 2em;
+    }
     .puzzledetail{
         width: 500px;
         float: left;

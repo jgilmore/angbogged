@@ -1,4 +1,7 @@
-<app-timer [initialTime]="puzzle.options[0].time" (updateCounter)="counterTick($event)"></app-timer>
+<div class=puzzleheader>
+    <app-timer [initialTime]="puzzle.options[0].time" (updateCounter)="counterTick($event)" [ngClass]="timer"></app-timer>
+    <span class=score>{{puzzle.options[0].score}}</span>
+</div>
 <div class=puzzledetail>
     <table class="grid">
         <tr *ngFor="let row of buttons" class="gridrow">
@@ -11,4 +14,4 @@
     </table>
     <app-word-entry [puzzle]="puzzle.id" [duration]="counter"></app-word-entry>
 </div>
-<app-words [puzzle]="puzzle.id" [options]="puzzle.options[0]"></app-words>
+<app-words [puzzle]="puzzle.id" [options]="puzzle.options[0]" (sendScore)="onScore($event)"></app-words>

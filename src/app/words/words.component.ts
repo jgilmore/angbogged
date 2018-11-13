@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { WordsListSet, Players, PuzzleService } from '../puzzle.service';
 import { PuzzleOptions } from '../puzzle';
 import { MessageService } from '../message.service';
@@ -15,7 +15,8 @@ import { AddWord } from '../addword.service';
 export class WordsComponent implements OnInit {
   @Input() options: PuzzleOptions;
   @Input() puzzle: number;
-  @Output() score: number;
+  @Output() sendScore: EventEmitter<number> = new EventEmitter<number>();
+  score: number;
   words: WordsListSet[];
   misses: number;
   oldpuzzle: number;
@@ -46,21 +47,27 @@ export class WordsComponent implements OnInit {
      *  3. Basic score=done
      *  4. For multiplayer score, we add up who got it FIRST only. So basically the above,
      *     but for each word, check to see if someone else got it first.
+     *
+     *     Note: This function also updates the playerstring and TODO: CSS classes for each word.
      */
+    var score = 0;
     this.misses = 0;
-    this.score = 0;
     for( var i = 0; i < this.words.length ; i++){
       this.words[i].playerlist = ""
       if( this.words[i].word === null ){
         this.misses ++;
-        this.score  --;
+        score  --;
       }
       else{
-        this.score += this.words[i].word.length - this.options.minimumwordlength;
+        score += this.words[i].word.length - this.options.minimumwordlength + 1;
       }
       for( var j = 0; j < this.words[i].players.length ; j++){
         this.words[i].playerlist += this.words[i].players[j].player + ' ';
       }
+    }
+    if( this.score != score ){
+      this.sendScore.emit(score);
+      this.score = score;
     }
   }
 
