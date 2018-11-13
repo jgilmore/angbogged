@@ -11,4 +11,4 @@
     </table>
     <app-word-entry [puzzle]="puzzle.id" [duration]="counter"></app-word-entry>
 </div>
-<app-words [options]="puzzle.options[0]"></app-words>
+<app-words [puzzle]="puzzle.id" [options]="puzzle.options[0]"></app-words>

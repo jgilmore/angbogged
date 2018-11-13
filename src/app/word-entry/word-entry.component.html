@@ -1,1 +1,2 @@
 <input type="text"  [disabled]="disabled" class=puzzleentry [(ngModel)]="entry" (keyup.enter)="sendWord()" (keyup)="checkEntry">
+{{errormessage}}

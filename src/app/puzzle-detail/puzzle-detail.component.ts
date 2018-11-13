@@ -118,7 +118,6 @@ export class PuzzleDetailComponent implements OnInit {
     this.counter = counter;
   }
 
-
   ngOnInit() {
     // This is going to operate from the "blank" data on the initialization.
     // We'll call this again once we get a copy of the actual layout.

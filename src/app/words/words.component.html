@@ -4,4 +4,8 @@
         {{ word.word }}
         </span>
     </p>
+    <p *ngIf='misses !==0' class=word>
+        <span class=misses>
+        {{misses}}</span>&nbsp;misses
+    </p>
 </div>

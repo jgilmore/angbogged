@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { MessageService } from './message.service';
 import { Observable, of, interval }  from 'rxjs';
-import { catchError, map, tap, pluck, switchMap } from 'rxjs/operators';
+import { catchError, map, tap, pluck, switchMap, startWith } from 'rxjs/operators';
 import { Puzzle, PuzzleOptions } from './puzzle';
 import * as moment from 'moment';
 
@@ -91,34 +91,24 @@ export class PuzzleService {
         "foundtime":`00:00:${interval.asSeconds()}`,
       }) 
       .pipe( 
-        catchError(this.handleError('getWords', [])), 
         tap(this.successMessage('addWord')), 
       ); 
   } 
+
  
   public pollWords(puzzle: number): Observable<WordsListSet[]> { 
     var observable = interval(5000).pipe(
+      startWith([]),
       switchMap( dumpme => {
         return this.http.get(this.getWordsURL + puzzle + this.formatURL) 
           .pipe( 
             catchError(this.handleError('getWords',[])), 
-            pluck('wordlist_set'), 
-            map(this.changetoplayerstring), 
+            pluck('wordlist_set'),
             tap(this.successMessage('getWords')), 
           );
       })
     );
-    return observable;
-  } 
-
-  private changetoplayerstring(words: WordsListSet[]){ 
-    for( var i = 0; i < words.length ; i++){ 
-      words[i].playerlist = "" 
-      for( var j = 0; j < words[i].players.length ; j++){ 
-        words[i].playerlist += words[i].players[j].player + ' '; 
-      } 
-    } 
-    return words; 
+    return <Observable<WordsListSet[]>>observable;
   } 
 
   // Puzzle fetching functions
