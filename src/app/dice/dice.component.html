@@ -1,0 +1,10 @@
+<ul class=dicelist>
+    <li *ngFor='let die of dice' class=dicerow>
+        <button (click)='activate(die.id)' class=activatebutton>new game</button>
+        {{die.description}} {{die.url}}
+        <app-options *ngIf='die.active' [id]="die.id"></app-options>
+    </li>
+</ul>
+<p *ngIf='dice.length == 0' class=connectionerror>
+Missconfigured: Didn't get any dice sets. Either we can't reach the server or there aren't any dice. Retry your connection or contact the sysop to add some dice. Dice cannot be added with this interface. The apiview html interface or the admin interface are the only ways to create new dice sets.
+</p>

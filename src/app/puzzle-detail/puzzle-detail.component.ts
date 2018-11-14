@@ -101,18 +101,18 @@ export class PuzzleDetailComponent implements OnInit {
         if( button.text === 'Q' ){
           button.text = 'Qu';
           if(size === 4){
-            button.class.push('qubutton4');
+            button.class.push('qu4button');
           }
           else{
-            button.class.push('qubutton5');
+            button.class.push('qu5button');
           }
         }
         else{
           if(size === 4){
-            button.class.push('puzzlebutton4');
+            button.class.push('puzzle4button');
           }
           else{
-            button.class.push('puzzlebutton5');
+            button.class.push('puzzle5button');
           }
         }
         this.buttons[i].push(button);

@@ -1,0 +1,25 @@
+<p>
+    <input type="text" class=timeentry [(ngModel)]="time" 
+        title='This is the time the game will last for each player. Enter zero for no time limit. Should look like "05:00" for five minutes, or "01:00:00" for an hour.'> 
+    time limit<br>
+  <input type="checkbox" class=missedentry [(ngModel)]="options.missed"
+         title='If this box is checked, entering unrecognized or impossible to actually make words will result in a 1 point penalty to the players score.'>
+    Count missed words<br>
+  <input type="checkbox" class=repeatsentry [(ngModel)]="options.repeats"
+         title="If this box is checked, re-entering a word the player has already found will result in a 1 point penalty. This isn't tracked seperately, and both this and missed words will show up as '4 missed' at the bottom of the player's words list.">
+    Count repeated words<br>
+  <input type="checkbox" class=showmaximumentry [(ngModel)]="options.showmaximum"
+         title="If this box is checked, the players score will be displayed along with the maximum possible score for this game board and other statistics."
+  >
+  Show maximum <br>
+  <input type="text" class=minimumwordlengthentry [(ngModel)]="options.minimumwordlength"
+         title="The minimum length for valid words. This has no effect if set less than three. Set this to four or more to have any effect."
+  >
+  Minimum word length<br>
+  <input type="text" class=handicapentry [(ngModel)]="options.handicap"
+         title="Handicap or difficulty. Score is multiplied by this for comparison purposes. Set to .9 or even .75 to handicap an experienced player or an easy puzzle. Can also be set higher, say 1.5 or more, for a begining player or a difficult puzzle."
+  >
+  Handicap<br>
+  <input type="button" class=makebutton value="Make Game" (click)="onCreate()">
+  <input type="button" class=playbutton value="Play Game" (click)="onCreateAndPlay()">
+</p>

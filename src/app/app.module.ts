@@ -16,6 +16,8 @@ import { WordEntryComponent } from './word-entry/word-entry.component';
 import { NewGameComponent } from './new-game/new-game.component';
 import { LoginComponent } from './login/login.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
+import { DiceComponent } from './dice/dice.component';
+import { OptionsComponent } from './options/options.component';
 
 
 const appRoutes: Routes =[
@@ -23,6 +25,8 @@ const appRoutes: Routes =[
   { path: 'puzzles', component: PuzzleComponent },
   { path: 'play/:id', component: PuzzleDetailComponent },
   { path: 'newgame', component: NewGameComponent },
+  { path: 'dice', component: DiceComponent },
+  { path: 'options', component: OptionsComponent },
   { path: '**', component: LoginComponent },
 ]
 
@@ -37,7 +41,9 @@ const appRoutes: Routes =[
     WordEntryComponent,
     NewGameComponent,
     LoginComponent,
-    TitlebarComponent
+    TitlebarComponent,
+    DiceComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,

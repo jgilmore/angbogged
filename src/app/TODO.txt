@@ -1,0 +1,34 @@
+Basic Functionality:
+DONE: create puzzles from dice sets.
+DONE: adjust game settings in above process.
+
+TODO: finish game when we run out of time.
+TODO: Add a "give up" button. Probably on the dashboard?
+
+Functionality:
+TODO: word-entry, disallow non-lowercase alpha stuff.
+TODO: Display ALL words if the game is over.
+TODO: Add more 5x5 dice sets, and correct the naming etc of the sets we have.
+TODO: Test options cascading: from puzzle to play,  from playerr to play, and
+combos.
+
+Login/logout stuff:
+TODO: registration process.
+TODO: login screen: switch field/submit on enter.
+TODO: Logout should work? Either that or remove the button.
+
+Cosmetic:
+TODO: make a favicon with a nice grid on it.
+TODO: adjust timer and other number to be counting UP, instead of down.
+TODO: adjust timer and other numbers to deal with games without a time limit.
+TODO: Hide messages unless you hit a button.
+TODO: Add statistics
+TODO: if showmaximum, show the maximum score/number of words, etc. Remember to
+correctly interperet the players "minimumwordlength" setting.
+
+CSS cosmetic:
+TODO: Add the word in alphabetical order, with a "newword" CSS class.
+TODO: Adjust CSS classes of wordlist entries based on who got the word and
+when.
+TODO: Set CSS class of timer display based on time remaining (BLINK if <10
+seconds!)

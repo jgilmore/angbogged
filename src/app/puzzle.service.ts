@@ -29,6 +29,7 @@ export class WordsListSet {
 export class PuzzleService {
   private server = "http://127.0.0.1:8000";
   private getWordsURL = this.server + '/wordlist/'; 
+  private getDiceURL = this.server + '/diceset';
   private addWordURL = this.server + '/word/'; 
   private puzzleURL = this.server + '/puzzle';
   private authURL = this.server + '/auth/';
@@ -102,7 +103,7 @@ export class PuzzleService {
       switchMap( dumpme => {
         return this.http.get(this.getWordsURL + puzzle + this.formatURL) 
           .pipe( 
-            catchError(this.handleError('getWords',[])), 
+            catchError(this.handleError('getWords',{"wordlist_set":[]})), 
             pluck('wordlist_set'),
             tap(this.successMessage('getWords')), 
           );
@@ -110,6 +111,31 @@ export class PuzzleService {
     );
     return <Observable<WordsListSet[]>>observable;
   } 
+
+  // Dice fetching function
+  getDice(){
+    this.messageService.add("Sending dice observable");
+    return this.http.get(this.getDiceURL + this.formatURL)
+      .pipe(
+        catchError(this.handleError('getDice',[])),
+        tap(this.successMessage('getDice')),
+      );
+  }
+
+  // Create a new game function
+  newGame(options: PuzzleOptions, diceid: number){
+    var puzzle: Puzzle = new Puzzle();
+    puzzle.options = [options,];
+    puzzle.diceset = diceid + "";
+    puzzle.layout = "GARBAGE";
+    return this.http.post(
+      this.puzzleURL + this.formatURL,
+      puzzle
+    ).pipe(
+        catchError(this.handleError('newGame',[])),
+        tap(this.successMessage('newGame')),
+    );
+  }
 
   // Puzzle fetching functions
   public getPuzzles(): Observable<Puzzle[]> {
@@ -147,7 +173,11 @@ export class PuzzleService {
 
   private successMessage(from: string){
     return that => {
-      this.doMessage(`Success: ${from}:${that.length}!`)
+      if( that !== undefined && that.hasOwnProperty("length")){
+        this.doMessage(`Success: ${from}:${that.length}!`)
+      }else{
+        this.doMessage(`Success: ${from} was undefined, though!`)
+      }
     }
   }
 
